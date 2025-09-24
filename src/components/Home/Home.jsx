@@ -21,27 +21,7 @@ export default function Home() {
   }, [location.pathname, speakResponse]);
 
   return (
-    <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الصفحة الرئيسية</title>
-  <!-- مكتبة ResponsiveVoice -->
-  <script src="https://code.responsivevoice.org/responsivevoice.js?key=D6Pcv6Dj"></script>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tajawal Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Tajawal', sans-serif; }
-  </style>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-
+    
   <!-- أزرار الصوت -->
   <div class="mb-4 flex gap-2">
     <button onclick="readPage()" class="bg-[#D8EFF4] text-gray-600 px-3 py-1 rounded">🔊 اقرأ</button>
@@ -131,54 +111,6 @@ export default function Home() {
       </div>
     </footer>
   </div>
-      <script>
-    function loadPage(page) {
-      document.getElementById('iframe-content').src = page;
-    }
-
-    // قراءة النصوص جزء جزء
-    function readPage() {
-      let parts = [];
-      document.querySelectorAll("h1,h2,h3,p,button,a,li,span").forEach(el => {
-        let txt = el.innerText.trim();
-        if (txt) parts.push(txt);
-      });
-
-      let i = 0;
-      function speakNext() {
-        if (i < parts.length) {
-          responsiveVoice.speak(parts[i], "Arabic Female", { onend: speakNext });
-          i++;
-        }
-      }
-      speakNext();
-    }
-
-    function stopReading() {
-      responsiveVoice.cancel();
-    }
-
-        window.addEventListener("click", function(e) {
-      const dropdown = document.getElementById("dropdownMenu");
-      const button = document.querySelector("li.relative");
       
-      // إذا كان النقر خارج الـ button أو الـ dropdown، قم بإخفاء القائمة
-      if (!button.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.add("hidden");
-      }
-    });
-
-    // وظيفة لفتح القائمة عند الضغط على الـ button
-    document.querySelector("li.relative").addEventListener("click", function(e) {
-      const dropdown = document.getElementById("dropdownMenu");
-      dropdown.classList.toggle("hidden"); // التبديل بين إظهار وإخفاء القائمة
-      e.stopPropagation(); // لمنع إغلاق القائمة عند الضغط على الـ button
-    });
-    
-
-  
-  </script>
-</body>
-</html>
   );
 }

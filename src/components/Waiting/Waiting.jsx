@@ -9,25 +9,7 @@ export default function Waiting() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>انتظار رد المتطوع</title>
-
-  <!-- إضافة Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    body {
-      font-family: 'Tajawal', sans-serif;
-    }
-  </style>
-</head>
-
-<body class="bg-white min-h-screen flex flex-col items-center justify-center">
+      
 
   <!-- المحتوى داخل الصفحة -->
   <div class="text-center p-2">
@@ -42,9 +24,6 @@ export default function Waiting() {
 
   </div>
 
-</body>
-
-</html>
     </>
   );
 }

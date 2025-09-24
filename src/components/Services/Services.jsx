@@ -9,25 +9,7 @@ export default function Services() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الخدمات</title>
-  
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Tajawal Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    body { font-family: 'Tajawal', sans-serif; }
-  </style>
-</head>
-<body class="bg-white h-[95vh] flex flex-col items-center justify-center">
-
+      
 <!-- Welcome Section -->
 <section class="text-center text-black mt-10 mb-[10px]">
   <h2 class="font-bold text-3xl mt-5  flex items-center justify-center gap-2 ">
@@ -100,8 +82,6 @@ export default function Services() {
   </div>
 </section>
 
-</body>
-</html>
     </>
   );
 }

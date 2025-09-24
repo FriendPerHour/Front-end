@@ -93,33 +93,7 @@ export default function SignUp() {
   });
 
   return <>
-  <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>إنشاء حساب</title>
 
-  <!-- مكتبة ResponsiveVoice -->
-  <script src="https://code.responsivevoice.org/responsivevoice.js?key=D6Pcv6Dj"></script>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tajawal Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Tajawal', sans-serif; }
-    .no-arrow { 
-      appearance: none; 
-      -webkit-appearance: none; 
-      -moz-appearance: none; 
-      background-image: none !important; 
-    }
-  </style>
-</head>
-<body class="bg-[#f5f5f5] h-[95vh] flex flex-col items-center justify-center">
 
   <!-- أزرار الصوت -->
   <div class="mb-4">
@@ -194,60 +168,6 @@ export default function SignUp() {
     <div class="flex-[0.6] bg-cover bg-center hidden md:block" style="background-image: url('images/img10.jpg');"></div>
   </div>
 
-  <script>
-    // التنقل بين الصفحات
-    document.querySelector("button[type=button]").addEventListener("click", function(){
-      window.location.href = "SignIn.html";
-    });
-
-    // Toggle Password
-    const togglePassword = document.getElementById("togglePassword");
-    const password = document.getElementById("password");
-    togglePassword.addEventListener("click", () => {
-      if(password.type === "password"){
-        password.type = "text";
-        togglePassword.src = "images/eye.png";
-      } else {
-        password.type = "password";
-        togglePassword.src = "images/hidden.png";
-      }
-    });
-
-    const togglePassword2 = document.getElementById("togglePassword2");
-    const confirmPassword = document.getElementById("confirmPassword");
-    togglePassword2.addEventListener("click", () => {
-      if(confirmPassword.type === "password"){
-        confirmPassword.type = "text";
-        togglePassword2.src = "images/eye.png";
-      } else {
-        confirmPassword.type = "password";
-        togglePassword2.src = "images/hidden.png";
-      }
-    });
-
-    // قراءة النصوص جزء جزء
-    function readPage() {
-      let parts = [];
-      document.querySelectorAll("h1,h2,h3,p,button,a,li,span").forEach(el => {
-        let txt = el.innerText.trim();
-        if (txt) parts.push(txt);
-      });
-
-      let i = 0;
-      function speakNext() {
-        if (i < parts.length) {
-          responsiveVoice.speak(parts[i], "Arabic Female", { onend: speakNext });
-          i++;
-        }
-      }
-      speakNext();
-    }
-
-    function stopReading() {
-      responsiveVoice.cancel();
-    }
-  </script>
-</body>
-</html>
+  
   </>;
 }

@@ -9,33 +9,7 @@ export default function Profile() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact</title>
-
-  <!-- مكتبة ResponsiveVoice -->
-  <script src="https://code.responsivevoice.org/responsivevoice.js?key=D6Pcv6Dj"></script>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tajawal Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Tajawal', sans-serif; }
-    .no-arrow {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: none !important;
-    }
-  </style>
-</head>
-<body class="bg-white min-h-screen flex flex-col items-center justify-center">
+      
 
   <div class="w-[95%] bg-white">
 
@@ -123,8 +97,6 @@ export default function Profile() {
 
   </div>
 
-</body>
-</html>
     </>
   );
 }

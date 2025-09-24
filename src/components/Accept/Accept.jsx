@@ -9,25 +9,7 @@ export default function Accept() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تم قبول طلبك</title>
-
-  <!-- إضافة Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    body {
-      font-family: 'Tajawal', sans-serif;
-    }
-  </style>
-</head>
-
-<body class="bg-white flex justify-center items-center min-h-screen">
+      
 
   <!-- المحتوى الكامل للصفحة -->
     <div class="bg-white p-4 justify-center rounded-lg shadow-lg space-y-2 border-4 rounded-full border-[#0D8EFF]">
@@ -52,20 +34,6 @@ export default function Accept() {
 
   </div>
 
-  <script>
-    // إغلاق التنبيه عند الضغط على الأزرار
-    document.getElementById('rejectBtn').onclick = function () {
-      alert('تم رفض الطلب');
-    };
-
-    document.getElementById('acceptBtn').onclick = function () {
-      alert('تم قبول الطلب');
-    };
-  </script>
-
-</body>
-
-</html>
     </>
   );
 }

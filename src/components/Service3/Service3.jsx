@@ -9,30 +9,7 @@ export default function Service3() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خدمة المرافقين</title>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- ResponsiveVoice -->
-  <script src="https://code.responsivevoice.org/responsivevoice.js?key=D6Pcv6Dj"></script>
-
-  <!-- Tajawal Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Tajawal', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-white flex items-center justify-center flex-col min-h-screen">
-
+      
   <div class="w-full px-6">
 
     <!-- Welcome Section -->
@@ -83,19 +60,7 @@ export default function Service3() {
     </section>
   </div>
 
-  <script>
-    // التنقل بين الصفحات
-    document.querySelector(".Transactions").addEventListener("click", function(){
-      window.location.href = "Transactions.html";
-    });
 
-    // تغيير قيمة التقييم
-    var userRating = 4.8;
-    document.getElementById("user-rating").textContent = userRating;
-  </script>
-
-</body>
-</html>
     </>
   );
 }

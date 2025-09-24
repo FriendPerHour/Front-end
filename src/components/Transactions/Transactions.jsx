@@ -9,26 +9,7 @@ export default function Transactions() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سجل المعاملات</title>
-
-  <!-- إضافة Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    body {
-      font-family: 'Tajawal', sans-serif;
-    }
-  </style>
-</head>
-
-<body class="bg-white min-h-screen flex flex-col items-center">
-
+      
   <!-- عنوان الصفحة -->
   <h1 class="text-center text-4xl font-bold mt-2">سجل المعاملات</h1>
 
@@ -142,9 +123,6 @@ export default function Transactions() {
 
   </div>
 
-</body>
-
-</html>
     </>
   );
 }

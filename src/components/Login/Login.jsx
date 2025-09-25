@@ -116,96 +116,53 @@ export default function Login() {
 
   return (
     <>
-      <div className="py-6 max-w-xl mx-auto text-center text-red-600 font-bold">
-        {(error && (
-          <div
-            className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            role="alert"
-          >
-            {error}
-          </div>
-        )) ||
-          null}
 
-        <button
-          type="button"
-          className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg"
-          onClick={handleDeviceLogin}
-        >
-          Login with Device PIN / Biometrics
-        </button>
+  <!-- أزرار الصوت -->
+  <div class="mb-4">
+    <button onclick="readPage()" class="bg-[#D8EFF4] text-gray-600 text-sm px-3 py-1.5 rounded mr-2">🔊 اقرأ</button>
+    <button onclick="stopReading()" class="bg-[#D8EFF4] text-gray-600 text-sm px-3 py-1.5 rounded">⏹ إيقاف</button>
+  </div>
 
-        <form className="max-w-xl mx-auto" onSubmit={formik.handleSubmit}>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Email address
-            </label>
-          </div>
-          {formik.errors.email && formik.touched.email ? (
-            <div
-              className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-              role="alert"
-            >
-              {formik.errors.email}
-            </div>
-          ) : null}
+  <!-- الحاوية الرئيسية -->
+  <div class="flex flex-col md:flex-row w-[90%] h-[90%] rounded-lg overflow-hidden shadow-lg bg-white">
 
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Password
-            </label>
+    <!-- التسجيل -->
+    <div class="flex flex-col justify-center text-right bg-[#D8EFF4] flex-[0.4] p-8">
+      <div class="bg-white rounded-lg shadow-md p-6 w-80 mx-auto">
+        <h2 class="text-center text-2xl font-bold text-black mb-6">تسجيل الدخول</h2>
+        <form id="signupForm" novalidate class="space-y-4">
+
+
+          <!-- البريد -->
+          <div class="relative">
+            <label for="email" class="block text-sm text-gray-500 mb-1">البريد الإلكتروني</label>
+            <input type="text" id="email" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
+            <img src="images/email.png" alt="email icon" class="absolute left-3 top-9 w-5 h-5">
+            <div id="emailError" class="text-red-500 text-xs mt-1"></div>
           </div>
 
-          {formik.errors.password && formik.touched.password ? (
-            <div
-              className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-              role="alert"
-            >
-              {formik.errors.password}
-            </div>
-          ) : null}
-
-          <button
-            type="submit"
-            id="loginForm"
-            className="text-blue-100 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            {isLoading ? (
-              <ImSpinner3 className="animate-spin h-5 w-5" />
-            ) : (
-              "Login"
-            )}
+          <!-- كلمة المرور -->
+          <div class="relative">
+            <label for="password" class="block text-sm text-gray-500 mb-1">كلمة المرور</label>
+            <input type="password" id="password" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
+            <img src="images/hidden.png" id="togglePassword" class="absolute left-3 top-9 w-5 h-5 cursor-pointer">
+            <div id="passwordError" class="text-red-500 text-xs mt-1"></div>
+          </div>
+              <!-- زر -->
+          <button type="button"
+            class="w-full bg-gradient-to-r from-[#0D8EFF] to-[#00FF84] text-white font-bold py-2 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,142,255,0.6),0_0_30px_rgba(0,255,132,0.6)]">
+            تسجيل الدخول
           </button>
+
         </form>
       </div>
+    </div>
+
+    <!-- الصورة -->
+    <div class="flex-[0.6] bg-cover bg-center hidden md:block" style="background-image: url('images/img10.jpg');"></div>
+  </div>
+
+
     </>
   );
 }

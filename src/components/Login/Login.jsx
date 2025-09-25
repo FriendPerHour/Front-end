@@ -35,18 +35,12 @@ export default function Login() {
     setIsLoading(true);
     await api
       .post(`auth/login`, formValues, { withCredentials: true })
-      .then(async function (response) {
+      .then(function (response) {
         const { data } = response;
         if (data.statusCode === 201) {
           setIsLoading(false);
           setUserLogin({ ...data.data.User });
           localStorage.setItem("hasSession", "true");
-
-          await api.post(`/auth/register-device`, {
-            deviceId: navigator.userAgent,
-            withCredentials: true,
-          });
-
           toast({
             title: "تم تسجيل الدخول ✅",
             description: "أهلاً بك مرة تانية 👋",
@@ -63,35 +57,6 @@ export default function Login() {
           variant: "destructive",
         });
       });
-  }
-
-  async function handleDeviceLogin() {
-    try {
-      const response = await api.post(`/auth/login-device`, {
-        deviceId: navigator.userAgent,
-      });
-
-      if (response.data.statusCode === 200) {
-        setUserLogin(response.data.data.User);
-        localStorage.setItem("hasSession", "true");
-
-        toast({
-          title: "تم تسجيل الدخول بالجهاز ✅",
-          description: "تم التعرف على جهازك بنجاح",
-          variant: "default",
-        });
-
-        navigate("/");
-      }
-    } catch (error) {
-      toast({
-        title: "فشل تسجيل الدخول ⚠️",
-        description:
-          error.response?.data?.message ||
-          "تعذر التحقق من الجهاز، حاول بالباسورد",
-        variant: "destructive",
-      });
-    }
   }
 
   let formik = useFormik({
@@ -126,14 +91,6 @@ export default function Login() {
           </div>
         )) ||
           null}
-
-        <button
-          type="button"
-          className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg"
-          onClick={handleDeviceLogin}
-        >
-          Login with Device PIN / Biometrics
-        </button>
 
         <form className="max-w-xl mx-auto" onSubmit={formik.handleSubmit}>
           <div className="relative z-0 w-full mb-5 group">

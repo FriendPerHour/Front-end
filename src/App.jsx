@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { Toaster } from "./components/ui/toaster";
 import { TooltipProvider } from "../src/components/ui/tooltip";
 import { VoiceProviderAI } from "./context/VoiceContextProvider";
+import TestPinAuth from "./components/Service1/Service1";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "TestPinAuth",
+        element: (
+          <ProtectedRoute>
+            <TestPinAuth />
           </ProtectedRoute>
         ),
       },

@@ -1,3 +1,4 @@
+
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,3 +34,4 @@ const Rating = ({ rating, onRatingChange, readonly = false }) => {
 };
 
 export default Rating;
+

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../navbar/navbar";
-import Footer from "../footer/footer";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useVoice } from "../../Context/AllContext";
 
@@ -8,7 +8,7 @@ export default function Layout() {
   const navigate = useNavigate();
   const { setNavigate, setLocation, speakResponse, currentLang } = useVoice();
   const location = useLocation();
-  const [isPageLoading, setIsPageLoading] = useState(true); // ابدأ بـ true
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
@@ -72,14 +72,15 @@ export default function Layout() {
       </div>
     );
   }
-
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+
+      <main className="flex-grow  flex items-center justify-center">
         <Outlet />
       </main>
+
       <Footer />
-    </>
+    </div>
   );
 }

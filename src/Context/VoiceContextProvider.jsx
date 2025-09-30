@@ -2,17 +2,16 @@ import { useContext, useState, useEffect, useCallback } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import api from "../api/axios";
+// import api from "../api/axios";
 import { toast } from "../components/ui/use-toast";
 import { UserContext, VoiceContext } from "./AllContext";
 import commands from "../utils/commands";
 import pageDescriptions from "../utils/voiceTexts";
 
-
-export const VoiceProviderAI = ({ children }) => {
+export default function VoiceProviderAI({ children }) {
   const { userLogin } = useContext(UserContext);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-
+  
   const [wakeWords, setWakeWords] = useState([
     "هاي",
     "هيللو",
@@ -28,6 +27,7 @@ export const VoiceProviderAI = ({ children }) => {
   const [navigate, setNavigate] = useState(null);
   const [location, setLocation] = useState(null);
   const [currentLang, setCurrentLang] = useState("ar-EG");
+
 
   const {
     transcript,
@@ -62,23 +62,23 @@ export const VoiceProviderAI = ({ children }) => {
       if (!userLogin) return;
 
       try {
-        const response = await api.get("/voice-order/wake-word", {
-          withCredentials: true,
-        });
-        const { data } = response;
-        if (data.statusCode === 200) {
-          if (Array.isArray(data.data)) {
-            setWakeWords(data.data);
-          } else {
-            setWakeWords([data.data]);
-          }
-        }
+        // const response = await api.get("/voice-order/wake-word", {
+        //   withCredentials: true,
+        // });
+        // const { data } = response;
+        // if (data.statusCode === 200) {
+        //   if (Array.isArray(data.data)) {
+        //     setWakeWords(data.data);
+        //   } else {
+        //     setWakeWords([data.data]);
+        //   }
+        // }
       } catch {
-        toast({
-          title: "⚠️ خطأ",
-          description: "لم يتم تحميل الكلمات السرية من الخادم",
-          variant: "destructive",
-        });
+        // toast({
+        //   title: "⚠️ خطأ",
+        //   description: "لم يتم تحميل الكلمات السرية من الخادم",
+        //   variant: "destructive",
+        // });
       }
     };
 
@@ -102,6 +102,7 @@ export const VoiceProviderAI = ({ children }) => {
         interimResults: true,
       });
     }
+
   }, [currentLang]);
 
   useEffect(() => {
@@ -110,6 +111,7 @@ export const VoiceProviderAI = ({ children }) => {
     const normalizedText = finalTranscript.toLowerCase().trim();
 
     setTimeout(() => resetTranscript(), 100);
+
 
     if (containsWakeWord(normalizedText) && !voiceEnabled) {
       setVoiceEnabled(true);
@@ -140,6 +142,7 @@ export const VoiceProviderAI = ({ children }) => {
     getDetectedWakeWord,
   ]);
 
+
   useEffect(() => {
     if (silenceTimer) clearTimeout(silenceTimer);
 
@@ -154,7 +157,7 @@ export const VoiceProviderAI = ({ children }) => {
       resetTranscript();
 
       if (containsWakeWord(normalizedText) && !voiceEnabled) {
-
+        alert("Wake word detected");
         setVoiceEnabled(true);
         setIsProcessing(true);
         speakResponse(

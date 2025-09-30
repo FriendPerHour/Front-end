@@ -1,64 +1,44 @@
-import React, { useEffect, useState } from "react";
-import Style from "./service4.module.css";
+import { Phone, Clock } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import heroImage from "@/assets/img5.jpg";
+import ServiceTemplate from "../ServiceCard/ServiceCard";
+import { useNavigate } from "react-router-dom";
 
-export default function Service4() {
-  const [counter, setCounter] = useState(0);
-  useEffect(() => {
-    // Side effect logic here
-  }, []);
+const Service4 = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   return (
-    <>
-      
-  <div class="w-full px-6">
-
-    <!-- Welcome Section -->
-    <section class="text-center text-black">
-      <h2 class="font-bold text-4xl mt-5 mb-3">خدمة توصيل و تخليص الأوراق</h2>
-
-      <!-- نص و صورة جنب بعض -->
-      <div class="flex flex-col md:flex-row justify-between items-start gap-8 mt-6">
-
-        <!-- العمود الأيمن (النص + أزرار) -->
-        <div class="flex-1 text-right" >
-
-          <!-- الأزرار -->
-          <div class="flex justify-center flex-wrap gap-7 mb-5 ml-40">
-            <button class="bg-gradient-to-r from-[#0D8EFF] to-[#00FF84] text-white font-bold text-lg px-10 py-2 rounded-lg mt-3  transition hover:scale-105 shadow mx-auto">
-
-              اطلب مساعدة
-            </button>
-            <button onclick="window.location.href='Transactions.html'" class="bg-gradient-to-r from-[#0D8EFF] to-[#00FF84] text-white font-bold text-lg px-10 py-2 rounded-lg mt-3  mr-10 hover:scale-105 shadow mx-auto">
-              سجل المعاملات
-            </button>
-          </div>
-
-          <!-- التقييم -->
-          <p class="text-lg font-semibold flex items-center gap-2 text-[#6B7280] justify-end mb-4 ml-80">
-            <img src="images/star.png" alt="service" class="w-6 h-6">
-            5<span id="user-rating">/4.8</span> تقييم المستخدمين
-          </p>
-
-          <!-- الفقرات -->
-          <p class="text-lg leading-relaxed mb-2">خدمة إنسانية ضمن منصة صديق لمدة ساعة، وُجهت خصيصًا لدعم 
-ذوي الاحتياجات الخاصة عبر توفير متطوعين يساعدون في توصيل الأشياء 
-أو إنهاء الأوراق الرسمية التي قد يصعب عليهم القيام بها بمفردهم.</p>
-
-          <p class="text-lg leading-relaxed mb-2">تتيح هذه الخدمة للمستفيد طلب متطوع لمدة ساعة ليقوم بـ:</p>
-
-          <p class="text-lg leading-relaxed mb-2">1- الاعتماد على متطوع في توصيل المستلزمات الشخصية أو المشتريات إلى المنزل.</p>
-          <p class="text-lg leading-relaxed mb-2">2- إرسال أو استلام أغراض مهمة بأمان وسرعة.</p>
-          <p class="text-lg leading-relaxed">3- توفير وقت وجهد والشعور بالراحة من خلال وجود شخص موثوق.</p>
-        </div>
-
-        <!-- العمود الأيسر (الصورة) -->
-        <div class="flex-1 flex justify-center">
-          <img src="images/img8.jpg" alt="service" class="mr-72 w-[350px] h-[350px] object-cover rounded-lg shadow-lg">
-        </div>
-
-      </div>
-    </section>
-  </div>
-    </>
+    <ServiceTemplate
+      title="خدمة توصيل و تخليص الأوراق"
+      subtitle="خدمة متطورة للمساعدة"
+      description="خدمة إنسانية ضمن منصة صديق لمدة ساعة، وُجهت خصيصًا لدعم ذوي الاحتياجات الخاصة عبر توفير متطوعين يساعدون في توصيل الأشياء  أو إنهاء الأوراق الرسمية التي قد يصعب عليهم القيام بها بمفردهم."
+      description_extra="تتيح هذه الخدمة للمستفيد طلب متطوع لمدة ساعة ليقوم بـ:"
+      points={[
+        "1- الاعتماد على متطوع في توصيل المستلزمات الشخصية أو المشتريات إلى المنزل.",
+        "2- إرسال أو استلام أغراض مهمة بأمان وسرعة.",
+        "3- توفير وقت وجهد والشعور بالراحة من خلال وجود شخص موثوق.",
+      ]}
+      heroImage={heroImage}
+      primaryLabel="اطلب مساعدة الآن"
+      secondaryLabel="سجل الجلسات"
+      PrimaryIcon={Phone}
+      SecondaryIcon={Clock}
+      onPrimaryClick={() => {
+        toast({
+          title: "طلب المساعدة",
+          description: "سيتم توصيلك بمتطوع خلال دقائق قليلة...",
+        });
+        navigate("/create-request?serviceName=service4");
+      }}
+      onSecondaryClick={() =>
+        toast({
+          title: "سجل المعاملات",
+          description: "جاري تحميل سجل المعاملات الخاص بك...",
+        })
+      }
+    />
   );
-}
+};
+
+export default Service4;

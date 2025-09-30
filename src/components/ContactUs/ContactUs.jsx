@@ -16,7 +16,7 @@ const contactMethods = [
     icon: Phone,
     title: "دعم الطوارئ",
     description: "مساعدة فورية على مدار الساعة",
-    contact: "1-800-ACCESS",
+    contact: "+20 (012) 123-4567",
     color: "text-accent"
   },
   {

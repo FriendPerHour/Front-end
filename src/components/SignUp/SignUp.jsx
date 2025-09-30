@@ -7,6 +7,9 @@ import { UserContext, VoiceContext } from "../../Context/AllContext";
 import FormikInput from "../ui/formik-input";
 import api from "../../api/axios";
 import { toast } from "../ui/use-toast";
+import { FiMail, FiLock, FiUser, FiEye, FiEyeOff } from "react-icons/fi";
+import { FaRegListAlt } from "react-icons/fa";
+import LoginImage from "@/assets/img10.jpg";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("البريد الإلكتروني مطلوب"),
@@ -24,7 +27,10 @@ const validationSchema = Yup.object().shape({
     .required("الاسم مطلوب")
     .min(3, "الاسم قصير جدا")
     .max(30, "الاسم طويل جدا")
-    .matches(/^[a-zA-Z\s]+$/, "الاسم يجب أن يحتوي على أحرف ومسافات فقط"),
+    .matches(
+      /^[a-zA-Z\u0600-\u06FF\s]+$/,
+      "الاسم يجب أن يحتوي على أحرف عربية أو إنجليزية ومسافات فقط"
+    ),
   role: Yup.string().oneOf(["Volunteer", "Disabled"]).required("الدور مطلوب"),
 });
 
@@ -35,6 +41,8 @@ export default function SignUp() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { speakResponse } = useContext(VoiceContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -92,82 +100,96 @@ export default function SignUp() {
     onSubmit: handleSubmit,
   });
 
-  return <>
+  return (
+    <div className="flex flex-col md:flex-row w-[90%] h-[90%] rounded-lg overflow-hidden shadow-lg bg-white mx-auto">
+      <div className="flex flex-col justify-center text-right bg-[#D8EFF4] flex-[0.4] p-8">
+        <div className="bg-white rounded-lg shadow-md p-6 w-80 mx-auto">
+          <h2 className="text-center text-2xl font-bold text-black mb-6">
+            إنشاء حساب جديد
+          </h2>
 
+          <form className="max-w-xl mx-auto" onSubmit={handleFormSubmit}>
+            <FormikInput
+              label="الاسم الكامل"
+              name="fullName"
+              type="text"
+              formik={formik}
+              required
+              Icon={FiUser}
+              className="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]"
+            />
+            <FormikInput
+              label="البريد الإلكتروني"
+              name="email"
+              type="email"
+              formik={formik}
+              required
+              Icon={FiMail}
+              className="w-full border rounded-lg pl-10 pr-10 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]"
+            />
 
-  <!-- أزرار الصوت -->
-  <div class="mb-4">
-    <button onclick="readPage()" class="bg-[#D8EFF4] text-gray-600 text-sm px-3 py-1.5 rounded mr-2">🔊 اقرأ</button>
-    <button onclick="stopReading()" class="bg-[#D8EFF4] text-gray-600 text-sm px-3 py-1.5 rounded">⏹ إيقاف</button>
-  </div>
+            <FormikInput
+              label="كلمة المرور"
+              name="password"
+              type="password"
+              formik={formik}
+              required
+              Icon={FiLock}
+              withPasswordToggle
+              className="w-full border rounded-lg pl-10 pr-10 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]"
+            />
 
-  <!-- الحاوية الرئيسية -->
-  <div class="flex flex-col md:flex-row w-[90%] h-[90%] rounded-lg overflow-hidden shadow-lg bg-white">
+            <FormikInput
+              label="تأكيد كلمة المرور"
+              name="confirmPassword"
+              type="password"
+              formik={formik}
+              required
+              Icon={FiLock}
+              className="w-full border rounded-lg pl-10 pr-10 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]"
+              withPasswordToggle
+            />
 
-    <!-- القسم النصي مع الفورم -->
-    <div class="flex flex-col justify-center text-right bg-[#D8EFF4] flex-[0.4] p-8">
-      <div class="bg-white rounded-lg shadow-md p-6 w-80 mx-auto">
-        <h2 class="text-center text-2xl font-bold text-black mb-6">إنشاء حساب جديد</h2>
-        <form id="signupForm" novalidate class="space-y-4">
+            <div className="relative">
+              <label
+                htmlFor="role"
+                className="block text-sm text-gray-500 mb-1"
+              >
+                اختر نوع الخدمه
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 bg-white focus:ring focus:ring-[#0D8EFF]"
+              >
+                <option value="" label="اختر نوع الخدمه" disabled selected />
+                <option value="Volunteer">متطوع</option>
+                <option value="Disabled">مستفيد</option>
+              </select>
+              <FaRegListAlt className="absolute left-3 top-9 w-5 h-5 text-gray-400" />
+            </div>
 
-          <!-- الاسم -->
-          <div class="relative">
-            <label for="fullName" class="block text-sm text-gray-500 mb-1">الاسم الكامل</label>
-            <input type="text" id="fullName" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
-            <img src="images/user.png" alt="user icon" class="absolute left-3 top-9 w-5 h-5">
-            <div id="fullNameError" class="text-red-500 text-xs mt-1"></div>
-          </div>
-
-          <!-- البريد -->
-          <div class="relative">
-            <label for="email" class="block text-sm text-gray-500 mb-1">البريد الإلكتروني</label>
-            <input type="text" id="email" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
-            <img src="images/email.png" alt="email icon" class="absolute left-3 top-9 w-5 h-5">
-            <div id="emailError" class="text-red-500 text-xs mt-1"></div>
-          </div>
-
-          <!-- كلمة المرور -->
-          <div class="relative">
-            <label for="password" class="block text-sm text-gray-500 mb-1">كلمة المرور</label>
-            <input type="password" id="password" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
-            <img src="images/hidden.png" id="togglePassword" class="absolute left-3 top-9 w-5 h-5 cursor-pointer">
-            <div id="passwordError" class="text-red-500 text-xs mt-1"></div>
-          </div>
-
-          <!-- تأكيد كلمة المرور -->
-          <div class="relative">
-            <label for="confirmPassword" class="block text-sm text-gray-500 mb-1">تأكيد كلمة المرور</label>
-            <input type="password" id="confirmPassword" required class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 focus:ring focus:ring-[#0D8EFF]">
-            <img src="images/hidden.png" id="togglePassword2" class="absolute left-3 top-9 w-5 h-5 cursor-pointer">
-            <div id="confirmPasswordError" class="text-red-500 text-xs mt-1"></div>
-          </div>
-              <!-- نوع الخدمة -->
-        <div class="relative">
-          <label for="TypeService" class="block text-sm text-gray-500 mb-1">اختر نوع الخدمة</label>
-          <select id="TypeService" required 
-          class="w-full border rounded-lg pl-10 pr-3 py-2 text-gray-700 bg-white no-arrow focus:ring focus:ring-[#0D8EFF]">
-          <option value="" selected>-- اختر --</option>
-          <option value="مستفيد">مستفيد</option>
-         <option value="متطوع">متطوع</option>
-         </select>
-        <img src="images/Vector.png" alt="service icon" class="absolute left-3 top-9 w-3 h-3">
-        <div id="disabilityError" class="text-red-500 text-xs mt-1"></div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#0D8EFF] to-[#00FF84] text-white font-bold py-2 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,142,255,0.6),0_0_30px_rgba(0,255,132,0.6)] mt-4"
+            >
+              {isLoading ? (
+                <ImSpinner3 className="animate-spin h-5 w-5" />
+              ) : (
+                "إنشاء حساب"
+              )}
+            </button>
+          </form>
+        </div>
       </div>
 
-          <!-- زر -->
-          <button type="button" 
-            class="w-full bg-gradient-to-r from-[#0D8EFF] to-[#00FF84] text-white font-bold py-2 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(13,142,255,0.6),0_0_30px_rgba(0,255,132,0.6)]">
-            إنشاء حساب
-          </button>
-
-        </form>
-      </div>
+      <div
+        className="flex-[0.6] bg-cover bg-center hidden md:block"
+        style={{ backgroundImage: `url(${LoginImage})` }}
+      ></div>
     </div>
-
-    <!-- الصورة -->
-    <div class="flex-[0.6] bg-cover bg-center hidden md:block" style="background-image: url('images/img10.jpg');"></div>
-  </div>
-
-  
-  </>;
+  );
 }

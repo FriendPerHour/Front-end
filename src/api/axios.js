@@ -1,71 +1,194 @@
 import axios from "axios";
-import { errorConfig } from "./errorConfig";
-import { apiToast as toast } from "./APIToast";
+import { toast } from "../components/ui/use-toast";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
+export const getAccessToken = () => {
+  try {
+    return getCookie("accessToken");
+  } catch (error) {
+    console.error("Error getting access token:", error);
+    return null;
+  }
+};
+
+export const setAccessToken = (token, expiresIn = 900) => {
+  try {
+    if (token) {
+      const expires = new Date();
+      expires.setSeconds(expires.getSeconds() + expiresIn);
+      setCookie("accessToken", token, expires);
+    }
+  } catch (error) {
+    console.error("Error setting access token:", error);
+  }
+};
+
+export const clearAccessToken = () => {
+  try {
+    deleteCookie("accessToken");
+  } catch (error) {
+    console.error("Error clearing access token:", error);
+  }
+};
+
+// Cookie utility functions
+const setCookie = (name, value, expires, path = "/") => {
+  let cookie = `${name}=${encodeURIComponent(value)};`;
+  cookie += `path=${path};`;
+
+  if (expires) {
+    cookie += `expires=${expires.toUTCString()};`;
+  }
+
+  if (import.meta.env.PROD) {
+    cookie += "SameSite=Strict;";
+  }
+
+  document.cookie = cookie;
+};
+
+const getCookie = (name) => {
+  const cookies = document.cookie.split(";");
+  for (let cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split("=").map((c) => c.trim());
+    if (cookieName === name) {
+      return decodeURIComponent(cookieValue);
+    }
+  }
+  return null;
+};
+
+const deleteCookie = (name, path = "/") => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path};`;
+};
+
+export const api = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}`,
   withCredentials: true,
+  timeout: 30000,
 });
 
+api.interceptors.request.use(
+  (config) => {
+    const token = getAccessToken();
+    if (token && !config._skipAuth) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
-    const errors = error.response?.data?.errors;
 
-    if (
-      originalRequest.url.includes("/auth/logout") ||
-      originalRequest.url.includes("/auth/refresh")
-    ) {
+    if (originalRequest?._skipAuth) {
       return Promise.reject(error);
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
+
       try {
-        await api.post("/auth/refresh");
-        return api(originalRequest);
-      } catch (err) {
-        history.push("/unauthorized");
-        return Promise.reject(err);
+        const refreshResponse = await axios.post(
+          `${import.meta.env.VITE_API_URL}auth/refresh`,
+          {},
+          {
+            withCredentials: true,
+            timeout: 30000,
+            _skipAuth: true,
+          }
+        );
+
+        if (refreshResponse.data.statusCode === 200) {
+          const newAccessToken = refreshResponse.data.data.tokens.accessToken;
+          const expiresIn = refreshResponse.data.data.tokens.expiresIn;
+
+          setAccessToken(newAccessToken, expiresIn);
+
+          // Update the original request header
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+          // Process queued requests
+          processQueue(null, newAccessToken);
+
+          // Retry the original request
+          return api(originalRequest);
+        } else {
+          throw new Error("Refresh failed with non-200 status");
+        }
+      } catch (refreshError) {
+        // Process queued requests with error
+        processQueue(refreshError, null);
+
+        // Clear tokens and redirect to login
+        clearAccessToken();
+
+        // Show error message
+        if (refreshError.response?.status === 401) {
+          toast({
+            title: "انتهت الجلسة",
+            description: "يرجى تسجيل الدخول مرة أخرى",
+            variant: "destructive",
+          });
+
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 2000);
+        }
+
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
     }
 
-    if (error.response) {
-      console.log("Error interceptor triggered", error.response.status);
-      const { status, data } = error.response;
+    // Handle other API errors (don't show toast for 401)
+    if (error.response?.status !== 401) {
+      const errorMessage = error.response?.data?.message || "حصل خطأ غير متوقع";
 
-      if (Array.isArray(errors) && errors.length > 0) {
-        errors.forEach((e) => {
-          toast({
-            title: "⚠️ خطأ",
-            description: e,
-            variant: "destructive",
-          });
-        });
-      } else if (errorConfig.critical.includes(status)) {
-        history.push("/server-error");
-      } else if (errorConfig.auth.includes(status)) {
-        history.push("/unauthorized");
-      } else if (errorConfig.simple.includes(status)) {
+      // Don't show toast for network errors or cancellations
+      if (error.code !== "ERR_NETWORK" && error.code !== "ERR_CANCELED") {
         toast({
           title: "⚠️ خطأ",
-          description: data.message || "حصل خطأ",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "⚠️ خطأ",
-          description: "حصل خطأ غير متوقع",
+          description: errorMessage,
           variant: "destructive",
         });
       }
-    } else {
-      toast({
-        title: "⚠️ خطأ",
-        description: "مشكلة في الاتصال بالسيرفر",
-        variant: "destructive",
-      });
     }
 
     return Promise.reject(error);

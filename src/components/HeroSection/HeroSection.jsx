@@ -18,7 +18,7 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-              تمكين مجتمعات المكفوفين والصم من خلال حلول الفيديو والتواصل
+              تمكين مجتمعات جميع الاعاقات من خلال حلول الفيديو والتواصل
               المبتكرة. اتصل وتواصل وازدهر مع منصتنا التي تركز على إمكانية
               الوصول.
             </p>
@@ -39,7 +39,7 @@ const HeroSection = () => {
             <div className="flex items-center justify-center lg:justify-end space-x-6 space-x-reverse text-sm text-muted-foreground">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-secondary rounded-full ml-2 animate-pulse"></div>
-                متاح ٢٤/٧
+                متاح ٢٤ في الاسبوع
               </div>
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-accent rounded-full ml-2 animate-pulse"></div>

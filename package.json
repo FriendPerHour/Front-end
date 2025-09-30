@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,6 +13,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@100mslive/react-sdk": "^0.10.39",
+    "@100mslive/react-ui": "^0.8.9",
     "@fontsource-variable/inter": "^5.2.7",
     "@fontsource/inter": "^5.2.7",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -20,9 +25,11 @@
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.1",
     "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "flowbite": "^3.1.2",
     "formik": "^2.4.6",
     "generate-react-cli": "^9.0.1",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

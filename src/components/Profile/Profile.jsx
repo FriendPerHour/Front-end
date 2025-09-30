@@ -7,9 +7,5 @@ export default function Profile() {
     // Side effect logic here
   }, []);
 
-  return (
-    <>
-      <h1>Template Name</h1>
-    </>
-  );
+  return <></>;
 }

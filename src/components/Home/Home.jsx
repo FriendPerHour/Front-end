@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Style from "./Home.module.css";
 import HeroSection from "../HeroSection/HeroSection";
 import Features from "../Features/Features";
-import HowItWorks from "../HowItWorks/HowItWorks";
+import HowItWorks from "../HowItworks/HowItworks";
 import ContactUs from "../ContactUs/ContactUs";
 import { useVoice } from "../../Context/AllContext";
 import pageDescriptions from "../../utils/voiceTexts";

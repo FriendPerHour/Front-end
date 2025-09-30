@@ -105,9 +105,6 @@ const HowItWorks = () => {
             ابدأ الآن
             <ArrowRight className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform scale-x-[-1]" />
           </Button>
-          <p className="text-sm text-muted-foreground mt-4">
-            لا يتطلب بطاقة ائتمان • مجاني إلى الأبد • متوافق مع GDPR
-          </p>
         </div>
       </div>
     </section>
